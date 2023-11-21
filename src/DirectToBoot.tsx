@@ -1,8 +1,16 @@
 import axios, { AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
+import { getMessage } from "./utils";
 
-function getMessage(status: string) {
-  return status === 'ready' ? 'Please click the button when you have arrived. One of our friendly staff will bring your order to you.' : 'We are preparing your order...';
+const createButton = (status: string) => {
+  switch(status) {
+    case 'initialized':
+      return <button disabled>I'm here</button>
+    case 'ready':
+      return <button>I'm here</button>
+    case 'error':
+      return <button>04 23 33</button>
+  }
 }
 
 export const DirectToBoot = ({ orderId }: { orderId: string; }) => {
@@ -15,13 +23,14 @@ export const DirectToBoot = ({ orderId }: { orderId: string; }) => {
           setStatus('ready')
         }
       })
+      .catch(() => setStatus('error'))
   }, [orderId])
 
   return (
     <div>
       <h2>Direct To Boot</h2>
       <p>{getMessage(status)}</p>
-      <button disabled={status !== 'ready'}>I'm here</button>
+      {createButton(status)}
     </div>
   );
 };

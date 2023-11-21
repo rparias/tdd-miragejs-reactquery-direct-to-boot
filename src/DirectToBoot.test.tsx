@@ -38,4 +38,11 @@ describe('Direct to boot', () => {
     await waitFor(() => expect(button).toBeEnabled())
     await screen.findByText(/please click the button when you have arrived. one of our friendly staff will bring your order to you./i)
   })
+  
+  it('shows a fallback call the store button', async () => {
+    render(<DirectToBoot orderId='error-id' />)
+
+    await screen.findByRole('button', { name: /04 23 33/i})
+    await screen.findByText(/seems something went wrong, you can call the following number to notify us instead./i)
+  })
 })
