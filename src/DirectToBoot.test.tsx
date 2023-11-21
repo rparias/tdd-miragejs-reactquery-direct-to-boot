@@ -1,23 +1,13 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import { DirectToBoot } from './DirectToBoot'
-import { createServer, Request, Server } from 'miragejs'
-import Schema from 'miragejs/orm/schema'
-import { AnyRegistry } from 'miragejs/-types'
+import { Server } from 'miragejs'
+import { createMockServer } from './createMockServer'
 
 let server: Server
 
 describe('Direct to boot', () => {
   beforeEach(() => {
-    server = createServer({
-      routes() {
-        this.get('/api/orders/:id', (schema: Schema<AnyRegistry>, request: Request) => {
-          return {
-            id: request.params.id,
-            status: 'ready'
-          }
-        })
-      },
-    })
+    server = createMockServer()
   })
   
   afterEach(() => {
