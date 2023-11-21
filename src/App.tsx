@@ -1,9 +1,10 @@
 import './App.css';
+import { DirectToBoot } from './DirectToBoot';
 
 function App() {
   return (
     <div className="app">
-      <h1>Hello World</h1>
+      <DirectToBoot orderId='order-id' />
     </div>
   );
 }
