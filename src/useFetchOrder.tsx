@@ -1,6 +1,6 @@
 import axios, {AxiosResponse} from "axios";
-import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import {useEffect, useState} from "react";
+import {useQuery} from "@tanstack/react-query";
 
 function fetchOrders(orderId: string) {
   return axios.get(`/api/orders/${orderId}`)
@@ -10,31 +10,30 @@ function fetchOrders(orderId: string) {
       } else {
         throw new Error('fetch error')
       }
-    });
+    })
+    .catch((e) => { console.error(e.message) });
 }
 
 export const useFetchOrder = (orderId: string) => {
   const [status, setStatus] = useState<string>('initialized');
 
   // queries
-  const query = useQuery({ 
-    queryKey: ['orders'], 
-    queryFn: () => fetchOrders(orderId), 
-    retry: 10, 
+  const query = useQuery({
+    queryKey: ['orders'],
+    queryFn: () => fetchOrders(orderId),
+    retry: 10,
     refetchOnWindowFocus: false
   });
-  const { status: queryStatus, error, data, isSuccess } = query;
-
+  const {status: queryStatus, error, data, isSuccess} = query;
+  
   useEffect(() => {
-    if(error) {
-      console.log('error', error)
+    if (error) {
       setStatus('error')
     }
   }, [error]);
-  
+
   useEffect(() => {
-    console.log('hola')
-    if(isSuccess) {
+    if (isSuccess) {
       setStatus('ready')
     }
   }, [isSuccess]);
